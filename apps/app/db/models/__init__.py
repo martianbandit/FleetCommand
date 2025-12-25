@@ -1,4 +1,4 @@
-from app.db.models.user import User
+from app.db.models.user import User, UserRole
 from app.db.models.vehicle import Vehicle
 from app.db.models.repair_request import RepairRequest
 from app.db.models.work_order import WorkOrder
