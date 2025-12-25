@@ -1,12 +1,16 @@
 from fastapi import FastAPI
 
+from app.core.config import settings
+from app.core.logging import configure_logging
 from app.modules.auth.router import router as auth_router
 from app.modules.repair_requests.router import router as repair_requests_router
 from app.modules.users.router import router as users_router
 from app.modules.vehicles.router import router as vehicles_router
 from app.modules.work_orders.router import router as work_orders_router
 
-app = FastAPI(title="FleetCommand API")
+configure_logging()
+
+app = FastAPI(title=settings.APP_NAME)
 
 app.include_router(auth_router)
 app.include_router(users_router)
