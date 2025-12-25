@@ -7,6 +7,7 @@ from datetime import datetime, timedelta, timezone
 from typing import Any
 
 from app.core.config import settings
+from app.core.constants import PASSWORD_HASH_ITERATIONS
 
 
 def _base64url_encode(data: bytes) -> str:
@@ -20,7 +21,7 @@ def _base64url_decode(data: str) -> bytes:
 
 def hash_password(password: str) -> str:
     salt = os.urandom(16)
-    digest = hashlib.pbkdf2_hmac("sha256", password.encode("utf-8"), salt, 120_000)
+    digest = hashlib.pbkdf2_hmac("sha256", password.encode("utf-8"), salt, PASSWORD_HASH_ITERATIONS)
     return f"pbkdf2_sha256${_base64url_encode(salt)}${_base64url_encode(digest)}"
 
 
@@ -33,13 +34,13 @@ def verify_password(password: str, password_hash: str) -> bool:
         return False
     salt = _base64url_decode(salt_b64)
     expected = _base64url_decode(digest_b64)
-    candidate = hashlib.pbkdf2_hmac("sha256", password.encode("utf-8"), salt, 120_000)
+    candidate = hashlib.pbkdf2_hmac("sha256", password.encode("utf-8"), salt, PASSWORD_HASH_ITERATIONS)
     return hmac.compare_digest(expected, candidate)
 
 
 def create_access_token(subject: str, expires_delta: timedelta | None = None) -> str:
     if expires_delta is None:
-        expires_delta = timedelta(hours=6)
+        expires_delta = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
     expiry = datetime.now(timezone.utc) + expires_delta
     payload = {"sub": subject, "exp": int(expiry.timestamp())}
     payload_bytes = json.dumps(payload, separators=(",", ":")).encode("utf-8")
