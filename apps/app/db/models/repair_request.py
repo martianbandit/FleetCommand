@@ -24,5 +24,5 @@ class RepairRequest(Base):
 
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
-    vehicle = relationship("Vehicle")
+    vehicle = relationship("Vehicle", back_populates="repair_requests")
     driver = relationship("User")

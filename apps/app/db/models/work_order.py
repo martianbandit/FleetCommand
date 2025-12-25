@@ -32,6 +32,6 @@ class WorkOrder(Base):
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     completed_at = Column(DateTime(timezone=True), nullable=True)
 
-    vehicle = relationship("Vehicle")
+    vehicle = relationship("Vehicle", back_populates="work_orders")
     technician = relationship("User")
     repair_request = relationship("RepairRequest")
