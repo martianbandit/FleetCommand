@@ -3,13 +3,15 @@ from logging.config import fileConfig
 from sqlalchemy import engine_from_config, pool
 from alembic import context
 
+# IMPORTANT : on force l'import de l'app
 from app.db.base import Base
-from app.db import models  # IMPORTANT : force l'import des modèles
+from app.db import models  # noqa
 from app.core.config import settings
 
 config = context.config
 
-fileConfig(config.config_file_name)
+if config.config_file_name is not None:
+    fileConfig(config.config_file_name)
 
 target_metadata = Base.metadata
 
