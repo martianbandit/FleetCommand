@@ -1,9 +1,11 @@
-import uuid
 import enum
-from sqlalchemy import Column, String, DateTime, Enum, ForeignKey, Text
+import uuid
+
+from sqlalchemy import Column, DateTime, Enum, ForeignKey, String, Text
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
+
 from app.db.base import Base
 
 class RepairRequestStatus(str, enum.Enum):
@@ -26,3 +28,4 @@ class RepairRequest(Base):
 
     vehicle = relationship("Vehicle")
     driver = relationship("User")
+    work_order = relationship("WorkOrder", back_populates="repair_request", uselist=False)

@@ -1,7 +1,9 @@
 import uuid
-from sqlalchemy import Column, Enum, DateTime, ForeignKey
+from sqlalchemy import Column, DateTime, Enum, ForeignKey
 from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
+
 from app.db.base import Base
 from app.db.models.work_order import WorkOrderStatus
 
@@ -17,3 +19,5 @@ class WorkOrderStatusHistory(Base):
     new_status = Column(Enum(WorkOrderStatus), nullable=False)
 
     changed_at = Column(DateTime(timezone=True), server_default=func.now())
+
+    work_order = relationship("WorkOrder", back_populates="status_history")
