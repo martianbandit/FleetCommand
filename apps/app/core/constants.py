@@ -1,1 +1,8 @@
+APP_NAME = "FleetCommand API"
+API_V1_PREFIX = "/api"
 
+DEFAULT_PAGE_SIZE = 20
+MAX_PAGE_SIZE = 100
+
+DATETIME_FORMAT = "%Y-%m-%dT%H:%M:%S%z"
+DATE_FORMAT = "%Y-%m-%d"
