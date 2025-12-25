@@ -34,4 +34,4 @@ class WorkOrder(Base):
 
     vehicle = relationship("Vehicle")
     technician = relationship("User")
-    repair_request = relationship("RepairRequest")
+    repair_request = relationship("RepairRequest", back_populates="work_orders")

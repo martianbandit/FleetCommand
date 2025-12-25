@@ -6,6 +6,12 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from app.db.base import Base
 
+class RepairRequestPriority(str, enum.Enum):
+    low = "low"
+    medium = "medium"
+    high = "high"
+
+
 class RepairRequestStatus(str, enum.Enum):
     submitted = "submitted"
     converted = "converted"
@@ -17,12 +23,15 @@ class RepairRequest(Base):
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
 
     vehicle_id = Column(UUID(as_uuid=True), ForeignKey("vehicles.id"), nullable=False)
-    driver_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
+    reported_by_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
 
     description = Column(Text, nullable=False)
+    priority = Column(Enum(RepairRequestPriority), nullable=False)
     status = Column(Enum(RepairRequestStatus), default=RepairRequestStatus.submitted)
 
     created_at = Column(DateTime(timezone=True), server_default=func.now())
+    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
     vehicle = relationship("Vehicle")
-    driver = relationship("User")
+    reported_by = relationship("User")
+    work_orders = relationship("WorkOrder", back_populates="repair_request")
