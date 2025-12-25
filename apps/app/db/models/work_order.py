@@ -1,9 +1,11 @@
-import uuid
 import enum
-from sqlalchemy import Column, Text, DateTime, Enum, ForeignKey
+import uuid
+
+from sqlalchemy import Column, DateTime, Enum, ForeignKey, Text
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
+
 from app.db.base import Base
 
 class WorkOrderStatus(str, enum.Enum):
@@ -12,26 +14,20 @@ class WorkOrderStatus(str, enum.Enum):
     completed = "completed"
     cancelled = "cancelled"
 
-class WorkOrderOrigin(str, enum.Enum):
-    driver_request = "driver_request"
-    manual = "manual"
-
 class WorkOrder(Base):
     __tablename__ = "work_orders"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
 
-    vehicle_id = Column(UUID(as_uuid=True), ForeignKey("vehicles.id"), nullable=False)
-    technician_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=True)
     repair_request_id = Column(UUID(as_uuid=True), ForeignKey("repair_requests.id"), nullable=True)
+    assigned_to_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=True)
 
-    description = Column(Text, nullable=False)
+    summary = Column(Text, nullable=False)
     status = Column(Enum(WorkOrderStatus), default=WorkOrderStatus.open)
-    origin = Column(Enum(WorkOrderOrigin), nullable=False)
 
     created_at = Column(DateTime(timezone=True), server_default=func.now())
-    completed_at = Column(DateTime(timezone=True), nullable=True)
+    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
-    vehicle = relationship("Vehicle")
-    technician = relationship("User")
-    repair_request = relationship("RepairRequest")
+    repair_request = relationship("RepairRequest", back_populates="work_order")
+    assigned_to = relationship("User", back_populates="assigned_work_orders")
+    status_history = relationship("WorkOrderStatusHistory", back_populates="work_order")

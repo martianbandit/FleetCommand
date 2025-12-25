@@ -1,9 +1,12 @@
-import uuid
-from sqlalchemy import Column, String, Enum, DateTime
-from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.sql import func
-from app.db.base import Base
 import enum
+import uuid
+
+from sqlalchemy import Column, DateTime, Enum, String
+from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.orm import relationship
+from sqlalchemy.sql import func
+
+from app.db.base import Base
 
 class UserRole(str, enum.Enum):
     driver = "driver"
@@ -20,3 +23,5 @@ class User(Base):
     role = Column(Enum(UserRole), nullable=False)
 
     created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+    assigned_work_orders = relationship("WorkOrder", back_populates="assigned_to")
