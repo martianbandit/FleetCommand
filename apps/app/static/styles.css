@@ -1,0 +1,376 @@
+:root {
+  color-scheme: dark;
+  --bg: #05070f;
+  --card: rgba(10, 20, 38, 0.85);
+  --card-border: rgba(120, 190, 255, 0.25);
+  --text: #f2f6ff;
+  --muted: #b8c7e0;
+  --accent: #1aa7ff;
+  --accent-strong: #25f4ff;
+  --accent-alt: #8a5cff;
+  font-family: "Inter", system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: radial-gradient(circle at top, rgba(30, 70, 120, 0.6), transparent 55%),
+    linear-gradient(120deg, #05070f, #0a1022 50%, #111b3a);
+  color: var(--text);
+  min-height: 100vh;
+  padding-bottom: 4rem;
+  background-image: url("/static/assets/truck-neon.svg");
+  background-repeat: no-repeat;
+  background-position: 85% 12%;
+  background-size: 520px;
+}
+
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(3, 6, 12, 0.8);
+  backdrop-filter: blur(6px);
+  z-index: 999;
+}
+
+.loading-overlay.active {
+  display: flex;
+}
+
+.loading-card {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 2rem 2.5rem;
+  background: rgba(9, 18, 34, 0.9);
+  border: 1px solid rgba(45, 170, 255, 0.4);
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(3, 12, 24, 0.6);
+}
+
+.loading-card img {
+  width: 120px;
+  animation: float 2.6s ease-in-out infinite;
+}
+
+.loading-title {
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.loading-subtitle {
+  color: var(--muted);
+  margin-top: 0.4rem;
+}
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2.5rem 5vw 2rem;
+  gap: 2rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.brand img {
+  width: 88px;
+}
+
+.brand h1 {
+  font-size: 1.8rem;
+  letter-spacing: 0.04em;
+}
+
+.brand p {
+  color: var(--muted);
+  margin-top: 0.3rem;
+}
+
+nav {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+nav a {
+  color: var(--muted);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+nav a:hover {
+  color: var(--text);
+}
+
+button {
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 0.8rem 1.6rem;
+  font-size: 0.95rem;
+}
+
+.primary {
+  background: linear-gradient(120deg, var(--accent), var(--accent-alt));
+  color: #fff;
+  box-shadow: 0 15px 30px rgba(37, 244, 255, 0.2);
+}
+
+.secondary {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+main {
+  padding: 0 5vw;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 3rem;
+  align-items: center;
+  padding: 1rem 0 3rem;
+}
+
+.hero h2 {
+  font-size: clamp(2rem, 3vw, 3rem);
+  margin: 1rem 0;
+}
+
+.hero p {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.pill {
+  display: inline-flex;
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  background: rgba(37, 244, 255, 0.12);
+  color: var(--accent-strong);
+  font-weight: 600;
+}
+
+.hero-visual {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-visual img {
+  max-width: 100%;
+}
+
+.logo-stack {
+  position: absolute;
+  bottom: -10%;
+  display: flex;
+  gap: 1rem;
+  background: rgba(5, 10, 20, 0.7);
+  padding: 0.8rem 1rem;
+  border-radius: 18px;
+  border: 1px solid rgba(37, 244, 255, 0.2);
+}
+
+.logo-stack img {
+  width: 64px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+}
+
+.panel {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 20px;
+  padding: 1.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  min-height: 360px;
+}
+
+.panel h3 {
+  font-size: 1.25rem;
+}
+
+.panel p {
+  color: var(--muted);
+  margin-top: 0.4rem;
+  line-height: 1.5;
+}
+
+.panel-form {
+  display: grid;
+  gap: 0.9rem;
+}
+
+label {
+  display: grid;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+input,
+select {
+  border-radius: 12px;
+  border: 1px solid rgba(92, 140, 190, 0.35);
+  background: rgba(5, 12, 22, 0.7);
+  color: var(--text);
+  padding: 0.7rem 0.9rem;
+}
+
+input:focus,
+select:focus {
+  outline: 2px solid rgba(37, 244, 255, 0.5);
+  border-color: transparent;
+}
+
+.chips {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.chips span {
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(37, 244, 255, 0.15);
+  color: var(--accent-strong);
+  font-size: 0.75rem;
+}
+
+.list {
+  list-style: none;
+  color: var(--muted);
+  display: grid;
+  gap: 0.4rem;
+}
+
+.metrics {
+  display: flex;
+  gap: 1.5rem;
+  color: var(--muted);
+}
+
+.metrics strong {
+  display: block;
+  font-size: 1.4rem;
+  color: var(--text);
+}
+
+.status {
+  display: flex;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+}
+
+.badge {
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.badge.warning {
+  background: rgba(255, 184, 77, 0.15);
+  color: #ffc06e;
+}
+
+.badge.success {
+  background: rgba(79, 255, 160, 0.15);
+  color: #6effb0;
+}
+
+.timeline {
+  list-style: none;
+  display: grid;
+  gap: 0.5rem;
+  color: var(--muted);
+}
+
+.activity {
+  margin-top: 3rem;
+  background: rgba(11, 20, 38, 0.8);
+  border-radius: 24px;
+  padding: 2rem;
+  border: 1px solid rgba(88, 150, 220, 0.25);
+  display: grid;
+  gap: 1.5rem;
+}
+
+.activity-log {
+  min-height: 120px;
+  padding: 1rem 1.2rem;
+  background: rgba(5, 12, 24, 0.7);
+  border-radius: 16px;
+  border: 1px solid rgba(37, 244, 255, 0.2);
+  color: var(--muted);
+  display: grid;
+  gap: 0.6rem;
+}
+
+.activity-log p {
+  margin: 0;
+}
+
+footer {
+  padding: 3rem 5vw 1rem;
+  display: flex;
+  justify-content: space-between;
+  color: var(--muted);
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@media (max-width: 960px) {
+  .top-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  nav {
+    width: 100%;
+  }
+
+  body {
+    background-position: center 6%;
+  }
+}

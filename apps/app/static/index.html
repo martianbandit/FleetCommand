@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FleetCommand - Console Opérations</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="loading-overlay" id="loadingOverlay" aria-hidden="true">
+      <div class="loading-card">
+        <img src="/static/assets/truck-outline.svg" alt="Camion en chargement" />
+        <div>
+          <p class="loading-title">Synchronisation FleetCommand</p>
+          <p class="loading-subtitle">Connexion aux services du back-end...</p>
+        </div>
+      </div>
+    </div>
+
+    <header class="top-bar">
+      <div class="brand">
+        <img src="/static/assets/logo-blue.svg" alt="Logo FleetCommand" />
+        <div>
+          <h1>FleetCommand</h1>
+          <p>Interface unifiée des opérations flotte</p>
+        </div>
+      </div>
+      <nav>
+        <a href="#auth">Authentification</a>
+        <a href="#users">Utilisateurs</a>
+        <a href="#vehicles">Véhicules</a>
+        <a href="#repairs">Demandes</a>
+        <a href="#workorders">Work Orders</a>
+      </nav>
+      <button class="primary" id="syncButton">Lancer la synchro</button>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div>
+          <span class="pill">FleetCore + FleetCrew</span>
+          <h2>Un cockpit unique pour piloter toute votre flotte</h2>
+          <p>
+            Suivez les véhicules, gérez les demandes de réparation, orchestrez les ordres de travail et
+            sécurisez vos accès depuis une interface dédiée aux fonctionnalités du back-end.
+          </p>
+          <div class="hero-actions">
+            <button class="primary" data-action="auth-login">Tester un login</button>
+            <button class="secondary" data-action="workorder-create">Créer un work order</button>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <img src="/static/assets/truck-neon.svg" alt="Camion néon FleetCommand" />
+          <div class="logo-stack">
+            <img src="/static/assets/logo-blue.svg" alt="Logo bleu" />
+            <img src="/static/assets/logo-light.svg" alt="Logo clair" />
+            <img src="/static/assets/logo-neon.svg" alt="Logo néon" />
+          </div>
+        </div>
+      </section>
+
+      <section class="grid">
+        <article class="panel" id="auth">
+          <header>
+            <h3>Authentification</h3>
+            <p>Connexion et gestion des rôles (driver, mechanic, manager).</p>
+          </header>
+          <form class="panel-form" data-endpoint="/auth/login">
+            <label>
+              Email
+              <input type="email" placeholder="driver@fleet.com" required />
+            </label>
+            <label>
+              Mot de passe
+              <input type="password" placeholder="••••••••" required />
+            </label>
+            <button type="submit" class="primary">Se connecter</button>
+          </form>
+          <div class="chips">
+            <span>JWT</span>
+            <span>Refresh</span>
+            <span>RBAC</span>
+          </div>
+        </article>
+
+        <article class="panel" id="users">
+          <header>
+            <h3>Utilisateurs</h3>
+            <p>Onboardez les équipes terrain et administrez les profils.</p>
+          </header>
+          <form class="panel-form" data-endpoint="/users">
+            <label>
+              Nom complet
+              <input type="text" placeholder="Inès Martin" required />
+            </label>
+            <label>
+              Rôle
+              <select required>
+                <option>Driver</option>
+                <option>Mechanic</option>
+                <option>Manager</option>
+              </select>
+            </label>
+            <button type="submit" class="primary">Créer l'utilisateur</button>
+          </form>
+          <ul class="list">
+            <li>42 utilisateurs actifs</li>
+            <li>8 mécaniciens assignés</li>
+            <li>12 managers</li>
+          </ul>
+        </article>
+
+        <article class="panel" id="vehicles">
+          <header>
+            <h3>Véhicules</h3>
+            <p>Suivi VIN, kilométrage, et disponibilités.</p>
+          </header>
+          <form class="panel-form" data-endpoint="/vehicles">
+            <label>
+              VIN
+              <input type="text" placeholder="1HGBH41JXMN109186" required />
+            </label>
+            <label>
+              Kilométrage
+              <input type="number" placeholder="125000" required />
+            </label>
+            <button type="submit" class="primary">Ajouter un véhicule</button>
+          </form>
+          <div class="metrics">
+            <div>
+              <span>Disponibles</span>
+              <strong>18</strong>
+            </div>
+            <div>
+              <span>En maintenance</span>
+              <strong>6</strong>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel" id="repairs">
+          <header>
+            <h3>Demandes de réparation</h3>
+            <p>Centralisez les requêtes et priorisez les urgences.</p>
+          </header>
+          <form class="panel-form" data-endpoint="/repair-requests">
+            <label>
+              Véhicule
+              <input type="text" placeholder="FC-TRK-018" required />
+            </label>
+            <label>
+              Description
+              <input type="text" placeholder="Freins à vérifier" required />
+            </label>
+            <button type="submit" class="primary">Soumettre</button>
+          </form>
+          <div class="status">
+            <span class="badge warning">5 urgentes</span>
+            <span class="badge success">13 planifiées</span>
+          </div>
+        </article>
+
+        <article class="panel" id="workorders">
+          <header>
+            <h3>Work Orders</h3>
+            <p>Planification, suivi et historique des statuts.</p>
+          </header>
+          <form class="panel-form" data-endpoint="/work-orders">
+            <label>
+              Technicien
+              <input type="text" placeholder="Alex Kouamé" required />
+            </label>
+            <label>
+              Statut
+              <select required>
+                <option>Ouvert</option>
+                <option>En cours</option>
+                <option>Terminé</option>
+              </select>
+            </label>
+            <button type="submit" class="primary">Créer un work order</button>
+          </form>
+          <ul class="timeline">
+            <li>Ouvert ➜ Assigné</li>
+            <li>Assigné ➜ En cours</li>
+            <li>En cours ➜ Terminé</li>
+          </ul>
+        </article>
+      </section>
+
+      <section class="activity">
+        <div>
+          <h3>Historique des actions</h3>
+          <p>Suivi en temps réel des interactions avec le back-end.</p>
+        </div>
+        <div class="activity-log" id="activityLog">
+          <p>En attente d'évènements...</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>FleetCommand © 2024</span>
+      <span>API FastAPI · SQLAlchemy · Alembic</span>
+    </footer>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>
