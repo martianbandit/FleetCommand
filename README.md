@@ -1,88 +1,91 @@
 # FleetCommand
 
-FleetCommand est un **squelette d'application de gestion de flotte** (SaaS) avec deux volets annoncés : **FleetCore** (back‑office) et **FleetCrew** (terrain). Le dépôt contient principalement un backend FastAPI/SQLAlchemy prêt à être complété.
+FleetCommand est un **squelette d'application de gestion de flotte** (SaaS) organisé autour d'un backend FastAPI/SQLAlchemy. Le dépôt pose les bases de deux volets annoncés : **FleetCore** (back-office) et **FleetCrew** (terrain). À ce stade, le backend est prêt à être complété avec des cas d'usage et des vues métier.
 
-## État actuel du dépôt
-
-Le projet est encore en phase de mise en place. On y trouve surtout :
-
-- une base **backend FastAPI** (structure de modules + configuration),
-- des **modèles SQLAlchemy** pour la gestion de la flotte,
-- une configuration **Alembic** pour les migrations,
-- des fichiers de tests vides (à compléter).
-
-## Structure principale
+## Contenu du dépôt
 
 ```
 .
 ├── README.md
 └── apps/
-    ├── app/
-    │   ├── core/           # configuration, logging, sécurité (squelettes)
-    │   ├── db/             # base SQLAlchemy + modèles
-    │   ├── integrations/   # intégrations externes (ex: ai_gateway)
-    │   ├── modules/        # domaines métiers (auth, véhicules, work orders...)
-    │   ├── utils/          # helpers (uuid, pagination, dates)
-    │   └── main.py         # point d’entrée (actuellement vide)
-    ├── alembic/            # scripts de migration
-    ├── alembic.ini         # configuration Alembic
-    ├── requirements.txt    # dépendances Python
-    └── tests/              # tests (actuellement vides)
+    ├── app/               # code FastAPI (routers + logique métier)
+    ├── alembic/           # migrations SQLAlchemy
+    ├── alembic.ini        # configuration Alembic
+    ├── requirements.txt   # dépendances Python
+    └── tests/             # tests (squelettes)
 ```
 
-## Modèles de données disponibles
+## Composants principaux
 
-Les modèles SQLAlchemy existants décrivent les entités principales :
+- **API FastAPI** : point d'entrée `apps/app/main.py` avec routers pour l'auth, les utilisateurs, les véhicules, les ordres de travail et les demandes de réparation.
+- **SQLAlchemy** : modèles dans `apps/app/db/models/`.
+- **Migrations Alembic** : configuration prête dans `apps/alembic/`.
+- **Configuration** : via `pydantic-settings` et fichier `.env`.
 
-- **Vehicle** : véhicule, VIN, kilométrage, dates d’entrée en service.
-- **User** : utilisateur (driver, mechanic, manager).
-- **RepairRequest** : demande de réparation liée à un véhicule et un conducteur.
-- **WorkOrder** : ordre de travail, statut, origine, liens vers véhicule et technicien.
-- **WorkOrderStatusHistory** : historique des changements de statut.
+## Pré-requis
 
-Ces modèles se trouvent dans `apps/app/db/models/`.
+- Python 3.11+
+- Une base PostgreSQL (locale ou via Docker)
 
-## Configuration
+## Procédure d'installation locale (pas-à-pas)
 
-Le projet utilise `pydantic-settings` pour charger la configuration depuis un fichier `.env` :
+### 1) Préparer l'environnement Python
+
+```bash
+cd apps
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+### 2) Configurer les variables d'environnement
+
+Créer un fichier `apps/.env` :
 
 ```
 DATABASE_URL=postgresql+psycopg://user:password@localhost:5432/fleetcommand
 JWT_SECRET=change_me
 ```
 
-> Le fichier `apps/app/core/config.py` lit automatiquement ce `.env`.
+> `apps/app/core/config.py` charge automatiquement ce fichier.
 
-## Démarrage (prévu)
+### 3) Initialiser la base de données
 
-Le point d’entrée `apps/app/main.py` est vide pour l’instant. Une fois complété, l’application pourra être lancée avec :
+Assurez-vous que la base PostgreSQL est accessible avec l'URL ci-dessus, puis :
 
-```
-uvicorn app.main:app --reload
-```
-
-## Migrations (Alembic)
-
-Pour lancer des migrations, une fois le backend opérationnel :
-
-```
+```bash
+cd apps
 alembic revision --autogenerate -m "init"
 alembic upgrade head
 ```
 
-La configuration Alembic se base sur `DATABASE_URL` et est définie dans `apps/alembic/env.py`.
+### 4) Lancer l'API
 
-## Tests
+```bash
+cd apps
+uvicorn app.main:app --reload
+```
 
-Le dossier `apps/tests/` contient des fichiers de tests vides. Ils sont prêts à être remplis pour valider les modules métiers (auth, work orders, repair requests, etc.).
+- API : `http://127.0.0.1:8000`
+- Swagger UI : `http://127.0.0.1:8000/docs`
+
+## Modèles disponibles (SQLAlchemy)
+
+Les entités principales déjà présentes :
+
+- **Vehicle** : véhicule, VIN, kilométrage, dates d'entrée en service.
+- **User** : utilisateur (driver, mechanic, manager).
+- **RepairRequest** : demande de réparation liée à un véhicule et un conducteur.
+- **WorkOrder** : ordre de travail, statut, origine, liens vers véhicule et technicien.
+- **WorkOrderStatusHistory** : historique des changements de statut.
 
 ## Prochaines étapes suggérées
 
-- Implémenter le **point d’entrée FastAPI** dans `apps/app/main.py`.
-- Compléter les **routers/services** dans `apps/app/modules/`.
-- Ajouter des tests unitaires et d’intégration.
-- Documenter les endpoints API avec OpenAPI/Swagger.
+- Ajouter des endpoints CRUD complets pour chaque module.
+- Définir les permissions par rôle et la gestion des tokens JWT.
+- Écrire des tests unitaires et d'intégration dans `apps/tests/`.
+- Documenter l'API métier (exemples de payloads et erreurs).
 
 ---
 
-Si vous souhaitez que je complète le backend ou ajoute les endpoints de base, indiquez vos priorités (auth, gestion des véhicules, etc.).
+Pour plus de détails sur l'API et la configuration backend, consultez `apps/README.md`.
