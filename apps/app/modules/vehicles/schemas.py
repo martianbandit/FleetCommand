@@ -1,4 +1,4 @@
-from datetime import date, datetime
+from datetime import datetime
 from pydantic import BaseModel, ConfigDict
 
 
@@ -6,11 +6,11 @@ class VehicleResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
     id: str
-    unit_number: str
-    vin: str | None = None
-    brand: str
+    vin: str
+    license_plate: str
+    make: str
     model: str
     year: int
-    mileage: int | None = None
-    in_service_date: date | None = None
+    status: str
     created_at: datetime | None = None
+    updated_at: datetime | None = None
