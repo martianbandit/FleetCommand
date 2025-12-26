@@ -1,0 +1,22 @@
+<svg width="640" height="360" viewBox="0 0 640 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="glow" x1="40" y1="40" x2="600" y2="320" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#25F4FF"/>
+      <stop offset="1" stop-color="#7A3BFF"/>
+    </linearGradient>
+    <filter id="soft" x="0" y="0" width="100%" height="100%">
+      <feGaussianBlur stdDeviation="3"/>
+    </filter>
+  </defs>
+  <rect x="40" y="110" width="320" height="120" rx="24" stroke="url(#glow)" stroke-width="8"/>
+  <rect x="360" y="90" width="210" height="160" rx="26" stroke="url(#glow)" stroke-width="8"/>
+  <path d="M80 230H520" stroke="url(#glow)" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="170" cy="256" r="36" stroke="url(#glow)" stroke-width="8"/>
+  <circle cx="450" cy="256" r="36" stroke="url(#glow)" stroke-width="8"/>
+  <path d="M410 90V170L520 170" stroke="url(#glow)" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="410" cy="90" r="10" fill="#25F4FF"/>
+  <circle cx="410" cy="170" r="10" fill="#25F4FF"/>
+  <circle cx="520" cy="170" r="10" fill="#7A3BFF"/>
+  <path d="M90 120L140 120L170 150L120 150" stroke="url(#glow)" stroke-width="8" stroke-linecap="round"/>
+  <path d="M62 230H160" stroke="url(#glow)" stroke-width="6" stroke-linecap="round" filter="url(#soft)" opacity="0.7"/>
+</svg>
