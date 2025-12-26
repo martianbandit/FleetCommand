@@ -14,5 +14,6 @@ def get_work_orders(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ) -> list[WorkOrderResponse]:
+    """Lister les ordres de travail visibles pour l'utilisateur."""
     work_orders = list_work_orders(db, current_user)
     return [WorkOrderResponse.model_validate(item) for item in work_orders]

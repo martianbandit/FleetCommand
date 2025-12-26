@@ -21,17 +21,20 @@ class StoredFileResponse(BaseModel):
 
 @router.post("", response_model=StoredFileResponse, status_code=status.HTTP_201_CREATED)
 def upload_file(file: UploadFile) -> StoredFileResponse:
+    """Téléverser un fichier et retourner les métadonnées stockées."""
     record = save_upload(file)
     return StoredFileResponse.model_validate(record)
 
 
 @router.get("", response_model=list[StoredFileResponse])
 def list_uploaded_files() -> list[StoredFileResponse]:
+    """Lister les fichiers déjà téléversés."""
     return [StoredFileResponse.model_validate(record) for record in list_files()]
 
 
 @router.get("/{file_id}")
 def download_file(file_id: str) -> FastAPIFileResponse:
+    """Télécharger un fichier par son identifiant."""
     record = get_file(file_id)
     if record is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="File not found")

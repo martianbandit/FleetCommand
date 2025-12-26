@@ -17,7 +17,7 @@ def register_user(db: Session, payload: RegisterRequest) -> User:
     user = User(
         email=payload.email,
         full_name=payload.full_name,
-        password_hash=hash_password(payload.password),
+        hashed_password=hash_password(payload.password),
         role=payload.role,
     )
     db.add(user)
@@ -28,6 +28,6 @@ def register_user(db: Session, payload: RegisterRequest) -> User:
 
 def authenticate_user(db: Session, payload: LoginRequest) -> str:
     user = get_user_by_email(db, payload.email)
-    if not user or not verify_password(payload.password, user.password_hash):
+    if not user or not verify_password(payload.password, user.hashed_password):
         raise ValueError("Invalid credentials")
     return create_access_token(str(user.id))

@@ -14,5 +14,6 @@ def get_vehicles(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ) -> list[VehicleResponse]:
+    """Lister les véhicules visibles pour l'utilisateur connecté."""
     vehicles = list_vehicles(db, current_user)
     return [VehicleResponse.model_validate(vehicle) for vehicle in vehicles]

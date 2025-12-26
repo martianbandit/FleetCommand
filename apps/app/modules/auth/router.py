@@ -11,6 +11,7 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 
 @router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
 def register(payload: RegisterRequest, db: Session = Depends(get_db)) -> UserResponse:
+    """Créer un nouveau compte utilisateur."""
     try:
         user = register_user(db, payload)
     except ValueError as exc:
@@ -20,6 +21,7 @@ def register(payload: RegisterRequest, db: Session = Depends(get_db)) -> UserRes
 
 @router.post("/token", response_model=TokenResponse)
 def login(payload: LoginRequest, db: Session = Depends(get_db)) -> TokenResponse:
+    """Générer un token d'accès pour un utilisateur enregistré."""
     try:
         token = authenticate_user(db, payload)
     except ValueError as exc:

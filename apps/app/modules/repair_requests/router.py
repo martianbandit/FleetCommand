@@ -14,5 +14,6 @@ def get_repair_requests(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ) -> list[RepairRequestResponse]:
+    """Lister les demandes de réparation accessibles."""
     requests = list_repair_requests(db, current_user)
     return [RepairRequestResponse.model_validate(item) for item in requests]

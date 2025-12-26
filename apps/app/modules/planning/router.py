@@ -14,4 +14,5 @@ def get_planning(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ) -> list[PlanningItem]:
+    """Retourner le planning des interventions pour l'utilisateur."""
     return list_planning(db, current_user)
